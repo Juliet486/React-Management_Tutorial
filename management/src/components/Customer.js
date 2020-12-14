@@ -15,8 +15,10 @@ class CustomerProfile extends React.Component{
     render(){
         return(
             <div>
+                고객프로필
                 <img src={this.props.image} alt="profile" />
                 <h2>{this.props.name}({this.props.id}) </h2>
+                
             </div>
 
         )
@@ -26,7 +28,10 @@ class CustomerProfile extends React.Component{
 class CustomerInfo extends React.Component{
     render(){
         return(
+            
             <div>
+                고객정보
+                
                 <p>{this.props.birthday}</p>
                 <p>{this.props.gender}</p>
                 <p>{this.props.job}</p>
