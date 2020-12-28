@@ -10,48 +10,51 @@ import TableCell from '@material-ui/core/TableCell';
 import CircularProgress  from '@material-ui/core/CircularProgress';
 import { withStyles }  from  '@material-ui/core/styles';  
 
+
 //style 변수 정의 
 const styles = theme =>({
   root : {
     width:'100%',
-    marginTop : theme.spacing.unit *3,
+    // marginTop : theme.spacing.unit * 3,
+    marginTop : theme.spacing(3),
     overflowX:  "auto"
   }, 
   table : {
     minwidth :1080
   },
   progress :{
-    margin:theme.spacing.unit * 2
+    // margin: theme.spacing.unit * 2
+    margin : theme.spacing(2)
   }
 })
 
 
 class App extends Component {
 
-  //state 는 변경될 수 있는 변수를 저장
-state = {
-  customers : "",
-  completed : 0
-}
+    //state 는 변경될 수 있는 변수를 저장
+  state = {
+    customers : "",
+    completed : 0
+  }
 
-//모든 컴포넌트가 마운트가 되면 호출되는 함수 
-componentDidMount(){
-  this.timer = setInterval(this.progress, 20);
-  // this.callApi()
-  //   .then(res => this.setState({customers:res}))
-  //   .catch(err => console.log(err));
-}
+  //모든 컴포넌트가 마운트가 되면 호출되는 함수 
+  componentDidMount(){
+    this.timer = setInterval(this.progress, 20);
+    this.callApi()
+      .then(res => this.setState({customers:res}))
+      .catch(err => console.log(err));
+  }
 
-callApi = async()=>{
-  const response = await fetch('/api/customers');
-  const body = await response.json();
-  return body;
-}
+  callApi = async()=>{
+    const response = await fetch('/api/customers');
+    const body = await response.json();
+    return body;
+  }
 
-progress = () =>{
-  const {completed } = this.state;
-  this.setState({ completed : completed >= 100 ? 0 : completed + 1 });
-}
+  progress = () =>{
+    const { completed } = this.state;
+    this.setState({ completed : completed >= 100 ? 0 : completed + 1 });
+  }
 
   render(){
     const {classes} = this.props;
@@ -77,7 +80,6 @@ progress = () =>{
         <TableRow>
           <TableCell colSpan="6" align="center">
             <CircularProgress className={classes.progress} variant="determinate" value={this.state.completed}></CircularProgress>
-
           </TableCell>
         </TableRow>
       }
