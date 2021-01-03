@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Customer from'./components/Customer'
+import CustomerAdd from './components/CustomerAdd';
 import './App.css';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -31,10 +32,32 @@ const styles = theme =>({
 
 class App extends Component {
 
-    //state 는 변경될 수 있는 변수를 저장
-  state = {
-    customers : "",
-    completed : 0
+  //state 는 변경될 수 있는 변수를 저장
+  // state = {
+  //   customers : "",
+  //   completed : 0
+  // }
+
+  constructor(props){
+    super(props);
+    this.state = {
+      customers : '',
+      completed :0
+    }
+  }
+
+  stateRefresh = () => {
+    
+    //state 초기화
+    this.setState({
+      customers : '',
+      completed : 0
+    });
+
+    //목록을 다시 불러온다.
+    this.callApi()
+      .then(res => this.setState({customers:res}))
+      .catch(err => console.log(err));
   }
 
   //모든 컴포넌트가 마운트가 되면 호출되는 함수 
@@ -86,6 +109,9 @@ class App extends Component {
       </TableBody>
       </Table>
       </Paper>
+      
+      {/* 함수 자체를 props 보낸다. */}
+      <CustomerAdd stateRefresh={this.stateRefresh} />  
       </div>
     );
   }

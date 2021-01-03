@@ -19,7 +19,10 @@ const connection = mysql.createConnection({
   port : conf.port,
   database : conf.database
 });
+connection.connect();
 
+const multer = require('multer');
+const upload = multer({dest : './upload'})
 
 //클라이언트가 api 경로에 접속하면  
 app.get('/api/customers', (req, res)=>{
@@ -30,5 +33,34 @@ app.get('/api/customers', (req, res)=>{
       }
     )
 })
+
+//image 폴더에서 upload 폴더로 접근 할 수 있도록 
+//사용자는 image란 폴더로 접근 -> 실제 서버의 위치는 upload 와 매핑 
+app.use('/image', express.static('./upload'));
+
+app.post('/api/customers', upload.single('image'), (req,res)=>{
+  let sql = 'INSERT INTO CUSTOMER VALUES(null,?,?,?,?,?)';
+  let image = '/image/' + req.file.filename;
+  let name = req.body.name;
+  let birthday = req.body.birthday;
+  let gender = req.body.gender;
+  let job = req.body.job;
+
+  // console.log(name);
+  // console.log(image);
+  // console.log(birthday);
+  // console.log(gender);
+  // console.log(job);
+
+  let parmas = [image, name, birthday, gender, job];
+
+  connection.query(sql, parmas, 
+    (err, rows, fields)=>{
+      res.send(rows);
+      console.log(err);
+    }
+  );
+
+});
 
 app.listen(port, ()=>console.log( `Listening on port ${port}` ));
