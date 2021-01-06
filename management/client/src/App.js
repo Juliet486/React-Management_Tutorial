@@ -32,12 +32,6 @@ const styles = theme =>({
 
 class App extends Component {
 
-  //state 는 변경될 수 있는 변수를 저장
-  // state = {
-  //   customers : "",
-  //   completed : 0
-  // }
-
   constructor(props){
     super(props);
     this.state = {
@@ -93,12 +87,16 @@ class App extends Component {
               <TableCell>생년월일</TableCell>
               <TableCell>성별</TableCell>
               <TableCell>직업</TableCell>
+              <TableCell>설정</TableCell>
              </TableRow>
           </TableHead>
           <TableBody>
       {
         this.state.customers ?  this.state.customers.map(c=>{
-          return  <Customer key={c.id}  id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job} />
+          return ( <Customer stateRefresh={this.stateRefresh} 
+                  key={c.id}  id={c.id} image={c.image} name={c.name} 
+                  birthday={c.birthday} gender={c.gender} job={c.job} /> 
+                  )
         }) : 
         <TableRow>
           <TableCell colSpan="6" align="center">
